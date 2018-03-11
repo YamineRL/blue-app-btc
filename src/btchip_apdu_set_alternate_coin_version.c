@@ -63,6 +63,11 @@ unsigned short btchip_apdu_set_alternate_coin_version() {
             goto incorrect_family;
         }
         break;
+    case BTCHIP_FAMILY_ZEN:
+        if (!(G_coin_config->flags & FLAG_ZENCASH_SUPPORT)) {
+            goto incorrect_family;
+        }
+        break;
     default:
     incorrect_family:
         return BTCHIP_SW_INCORRECT_DATA;
