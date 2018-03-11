@@ -22,8 +22,11 @@ include $(BOLOS_SDK)/Makefile.defines
 
 APP_PATH = ""
 # All but bitcoin app use dependency onto the bitcoin app/lib
-APP_LOAD_FLAGS=--appFlags 0x50 --dep Bitcoin
-DEFINES_LIB = USE_LIB_BITCOIN
+#APP_LOAD_FLAGS=--appFlags 0x50 --dep Bitcoin
+#DEFINES_LIB = USE_LIB_BITCOIN
+
+#Don't be Bitcoin app dependent (Testing)
+APP_LOAD_FLAGS=--appFlags 0x50
 APP_LOAD_PARAMS= --curve secp256k1 $(COMMON_LOAD_PARAMS) 
 
 APPVERSION_M=1
@@ -79,6 +82,11 @@ else ifeq ($(COIN),zcash)
 # Zcash
 DEFINES   += COIN_P2PKH_VERSION=7352 COIN_P2SH_VERSION=7357 COIN_FAMILY=1 COIN_COINID=\"Zcash\" COIN_COINID_HEADER=\"ZCASH\" COIN_COLOR_HDR=0x3790CA COIN_COLOR_DB=0x9BC8E5 COIN_COINID_NAME=\"Zcash\" COIN_COINID_SHORT=\"ZEC\" COIN_KIND=COIN_KIND_ZCASH
 APPNAME ="Zcash"
+APP_LOAD_PARAMS += --path $(APP_PATH)
+else ifeq ($(COIN),zencash)
+# ZenCash
+DEFINES   += COIN_P2PKH_VERSION=8329 COIN_P2SH_VERSION=8342 COIN_FAMILY=4 COIN_COINID=\"Zencash\" COINID_UPCASE=\"ZENCASH\" COLOR_HDR=0xFF4300 COLOR_DB=0xFF8356 COIN_COINID_NAME=\"Zencash\" COINID=$(COIN) COIN_COINID_SHORT=\"ZEN\" COIN_KIND=COIN_KIND_ZENCASH COIN_FLAGS=FLAG_ZENCASH_SUPPORT
+APPNAME ="ZenCash"
 APP_LOAD_PARAMS += --path $(APP_PATH)
 else ifeq ($(COIN),komodo)
 # Komodo
@@ -170,8 +178,8 @@ DEFINES   += APPVERSION=\"$(APPVERSION)\"
 ##############
 # Compiler #
 ##############
-#GCCPATH   := $(BOLOS_ENV)/gcc-arm-none-eabi-5_3-2016q1/bin/
-#CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
+GCCPATH   := $(BOLOS_ENV)/gcc-arm-none-eabi-5_3-2016q1/bin/
+CLANGPATH := $(BOLOS_ENV)/clang-arm-fropi/bin/
 CC       := $(CLANGPATH)clang 
 
 #CFLAGS   += -O0
