@@ -66,17 +66,14 @@ static bool check_output_displayable() {
         btchip_output_script_is_op_create(btchip_context_D.currentOutput + 8);
     isOpCall =
         btchip_output_script_is_op_call(btchip_context_D.currentOutput + 8);
-    //TODO: Support additional Opcodes for Zencash.
-    if(!(G_coin_config->flags & FLAG_ZENCASH_SUPPORT)){
-        if (((G_coin_config->flags & FLAG_QTUM_SUPPORT) &&
-            !btchip_output_script_is_regular(btchip_context_D.currentOutput + 8) &&
-            !isP2sh && !(nullAmount && isOpReturn) && !isOpCreate && !isOpCall) ||
-            (!(G_coin_config->flags & FLAG_QTUM_SUPPORT) &&
-            !btchip_output_script_is_regular(btchip_context_D.currentOutput + 8) &&
-            !isP2sh && !(nullAmount && isOpReturn))) {
-            PRINTF("Error : Unrecognized input script");
-            THROW(EXCEPTION);
-        }
+    if (((G_coin_config->flags & FLAG_QTUM_SUPPORT) &&
+        !btchip_output_script_is_regular(btchip_context_D.currentOutput + 8) &&
+        !isP2sh && !(nullAmount && isOpReturn) && !isOpCreate && !isOpCall) ||
+        (!(G_coin_config->flags & FLAG_QTUM_SUPPORT) &&
+        !btchip_output_script_is_regular(btchip_context_D.currentOutput + 8) &&
+        !isP2sh && !(nullAmount && isOpReturn))) {
+        PRINTF("Error : Unrecognized input script");
+        THROW(EXCEPTION);
     }
     if (btchip_context_D.tmpCtx.output.changeInitialized && !isOpReturn) {
         bool changeFound = false;
